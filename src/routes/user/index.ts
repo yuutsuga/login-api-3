@@ -16,7 +16,7 @@ route.get('/users/:id', async (req, res) => {
     const { userId }: any = req.params;
 
     if (!userId) {
-        return res.status(404).send('cannot find user');
+        return res.status(401).send('please enter a valid id');
     }
 
     const user = await prisma.user.findFirst({
@@ -24,6 +24,10 @@ route.get('/users/:id', async (req, res) => {
             id: userId
         }
     });
+
+    if (user == null) {
+        return res.status(404).send('user not found');
+    }
 
     res.status(200).send({ user });
 });
@@ -43,6 +47,16 @@ route.post('/users/create', async (req, res) => {
             username
         }
     });
+
+    const searchUserName = await prisma.user.findFirst({
+        where: {
+            username
+        }
+    });
+
+    if (searchUserName) {
+        return res.status(401).send('this username already exists');
+    }
 
     res.status(200).send({ user });
 });
