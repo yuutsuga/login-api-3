@@ -12,16 +12,21 @@ route.get('/users', async (req, res) => {
 });
 
 // route to get a user by id
-route.get('/users/:id', async (req, res) => {
-    const { userId }: any = req.params;
+route.get('/users/id/', async (req, res) => {
+    const { id } = req.body;
 
-    if (!userId) {
+    if (!id) {
         return res.status(401).send('please enter a valid id');
     }
 
     const user = await prisma.user.findFirst({
         where: {
-            id: userId
+            id
+        },
+        select: {
+            id,
+            name: true, 
+            username: true
         }
     });
 
@@ -48,25 +53,33 @@ route.post('/users/create', async (req, res) => {
         }
     });
 
-    const searchUserName = await prisma.user.findFirst({
-        where: {
-            username
-        }
-    });
+    // const searchUserName = await prisma.user.findFirst({
+    //     where: {
+    //         username
+    //     },
+    //     select: {
+    //         username: true
+    //     }
+    // });
 
-    if (searchUserName) {
-        return res.status(401).send('this username already exists');
-    }
+    // if (searchUserName) {
+    //     return res.status(401).send('user already exists');
+    // }
 
     res.status(200).send({ user });
 });
 
 // route to edit user
-route.put('/user/:id', async (req, res) => {
+route.put('/users/:id', async (req, res) => {
     const { userId }: any = req.params;
+    const { name, username } = req.body;
 
     if (!userId) {
         return res.status(404).send('user not found');
+    }
+
+    if (!name || !username) {
+        return res.status(401).send('missing fields');
     }
 
     const editUser = await prisma.user.update({
@@ -81,21 +94,31 @@ route.put('/user/:id', async (req, res) => {
 
 // route to delete user 
 route.delete('/users/:id', async (req, res) => {
-    const { userId }: any = req.params;
+    const { id }: any = req.params;
 
-    if (!userId) {
+    if (!id) {
         return res.status(404).send('user not found');
     }
 
     const deleteUser = await prisma.user.delete({
         where: {
-            id: userId
+            id: parseInt(id)
         }
     });
 
     if (!deleteUser) {
         return res.status(401).send({ deleted: false });
     }
+
+    // const userId = await prisma.user.findFirst({
+    //     where: {
+    //         id
+    //     }
+    // });
+
+    // if (id !== userId) {
+    //     return res.status(401).send('please enter a valid id');
+    // }
 
     res.status(200).send({ deleted: true });
 });
