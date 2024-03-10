@@ -15,27 +15,27 @@ type User = {
 }
 
 export const userService = {
-  create: (user: UserCreateInput): User | null => {
+  create: async (user: UserCreateInput): Promise<User | null> => {
     /* Faça seu código de criação de usuário*/
 
     return null;
   },
-  get: (): Array<User> => {
+  get: async (): Promise<Array<User>> => {
     /* Faça seu código de retorno de usuários*/
 
     return []
   },
-  find: (id: number): User | null => {
+  find: async (id: number): Promise<User | null> => {
     /* Faça seu código de busca de usuário*/
 
     return null;
   },
-  update: (id: number, user: UserUpdateInput): boolean => {
+  update: async (id: number, user: UserUpdateInput): Promise<boolean> => {
     /* Faça seu código de edição de usuário*/
 
     return false;
   },
-  delete: (id: number): boolean => {
+  delete: async (id: number): Promise<boolean> => {
     /* Faça seu código de deleção de usuário*/
 
     return false;

@@ -19,13 +19,13 @@ type User = {
 
 let temporaryUser: User;
 
-test('Creating User', () => {
+test('Creating User', async () => {
   const user: UserCreateInput = {
     name: `name-example-${Date.now()}`,
     username: `username-example-${Date.now()}`
   };
 
-  const userResult = userService.create(user);
+  const userResult = await userService.create(user);
 
   expect(userResult).toBeTruthy();
 
@@ -38,24 +38,24 @@ test('Creating User', () => {
   temporaryUser = userResult;
 });
 
-test('Finding User', () => {
-  const userResult = userService.find(temporaryUser.id);
+test('Finding User', async () => {
+  const userResult = await userService.find(temporaryUser.id);
 
   expect(userResult).toMatchObject(temporaryUser);
 });
 
-test('Getting Users', () => {
-  const usersResult = userService.get();
+test('Getting Users', async () => {
+  const usersResult = await userService.get();
   const user = usersResult.find(user => user.id === temporaryUser.id);
 
   expect(user).toMatchObject(temporaryUser);
 });
 
-test('Updating User', () => {
-  const updated = userService.update(temporaryUser.id, {
+test('Updating User', async () => {
+  const updated = await userService.update(temporaryUser.id, {
     ...temporaryUser
   });
-  const nonUpdated = userService.update(-1, {
+  const nonUpdated = await userService.update(-1, {
     ...temporaryUser
   });
 
@@ -63,9 +63,9 @@ test('Updating User', () => {
   expect(nonUpdated).toBeFalsy();
 });
 
-test('Deleting User', () => {
-  const deleted = userService.delete(temporaryUser.id);
-  const nonDeleted = userService.delete(-1);
+test('Deleting User', async () => {
+  const deleted = await userService.delete(temporaryUser.id);
+  const nonDeleted = await userService.delete(-1);
 
   expect(deleted).toBeTruthy();
   expect(nonDeleted).toBeFalsy();
