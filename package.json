@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "ts-node src/app.ts",
+    "dev": "nodemon src/app.ts"
+  },
   "dependencies": {
     "@prisma/client": "^5.10.2",
     "bcrypt": "^5.1.1",
