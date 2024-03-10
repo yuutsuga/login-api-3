@@ -25,6 +25,11 @@ test('Creating User', async () => {
     username: `username-example-${Date.now()}`
   };
 
+  temporaryUser = {
+    id: -1,
+    ...user
+  };
+
   const userResult = await userService.create(user);
 
   expect(userResult).toBeTruthy();
