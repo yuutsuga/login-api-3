@@ -2,7 +2,7 @@
   "scripts": {
     "start": "ts-node src/app.ts",
     "dev": "nodemon src/app.ts",
-    "test": "jest"
+    "test": "jest --noStackTrace"
   },
   "dependencies": {
     "@prisma/client": "^5.10.2",
